@@ -138,10 +138,9 @@ int updatefiles(void)
                 strcat(full_path, "/");
                 strcat(full_path, dir->d_name);
                 
-                //Print the full path
-                printf("%s\n",full_path);
+                //Copy the full path to the filelist array
                 strcpy(filelist[count], full_path);
-                printf("%s\n", filelist[count]);
+                //printf("%s\n", filelist[count]);
                 
                 // increase counter variable
                 count++;
