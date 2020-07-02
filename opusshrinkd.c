@@ -104,7 +104,7 @@ int updatefiles(void)
     struct dirent *dir;
     
     /* Create a 200 file character array to hold strings of 70 chars max each */
-    char *filelist[MAXFILES][70] = {'\0'};
+    char *filelist[MAXFILES][128] = {'\0'};
     
     /* File path  */
     char path[FILELEN]="/root/voicecalls/";
