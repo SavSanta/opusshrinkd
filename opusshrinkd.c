@@ -103,6 +103,9 @@ int updatefiles(void)
     DIR *d;
     struct dirent *dir;
     
+    /* initialize a counter variable for files in directory */
+    int count = 0;
+
     /* Create a 200 file character ptr array to hold strings of 128 chars max each */
     char * filelist[MAXFILES][128] = {'\0'};
     
