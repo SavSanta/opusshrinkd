@@ -21,7 +21,7 @@
 #define NORMAL_COLOR  "\x1B[0m"
 #define GREEN  "\x1B[32m"
 #define RED  "\x1B[33m"
-#define MAXFILES 3000              // originally set to 10000 but caused immediate SIGSEV
+#define MAXFILES 3000            // originally set to 10000 but caused immediate SIGSEV
 #define FILELEN 1000
 
 
@@ -103,7 +103,7 @@ int updatefiles(void)
     DIR *d;
     struct dirent *dir;
     
-    /* initialize a counter variable for files in directory */
+    /* declare and initialize a counter variable for files in directory */
     int count = 0;
 
     /* Create a 200 file character ptr array to hold strings of 128 chars max each */
@@ -143,7 +143,7 @@ int updatefiles(void)
                 strcpy(filelist[count], full_path);
                 printf("%s\n", filelist[count]);
                 
-                // increase count
+                // increase counter variable
                 count++;
             }
         }
