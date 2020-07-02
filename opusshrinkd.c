@@ -25,8 +25,7 @@
 #define FILELEN 1000
 
 
-    static void
-    opus_shrink_daemon ()
+    static void opus_shrink_daemon ()
     {
 
       /* Process below will cause the fork off into a daemon */
@@ -78,8 +77,7 @@
       openlog ("opusshrink", LOG_PID, LOG_DAEMON);
     }
 
-    int
-    main ()
+    int main ()
     {
       opus_shrink_daemon ();
 
@@ -99,8 +97,7 @@
     }
 
 
-    int
-    updatefiles (void)
+    int updatefiles (void)
     {
       /* Standard declarations */
       DIR *d;
