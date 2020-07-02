@@ -124,7 +124,6 @@ int updatefiles(void)
     if (d)
     {
         // call readdir to read the next file in the dirent directory and assign it to dir.
-        int count = 0 ;
         while ((dir = readdir(d)) != NULL) 
         {
             //Check if dirent is valued as a regular file. Only expected to work on unix per https://linux.die.net/man/3/readdir
@@ -138,12 +137,11 @@ int updatefiles(void)
                 
                 //Print the full path
                 printf("%s\n",full_path);
-                strcpy(filelist[0][0], full_path);
-                printf("%s\n", *filelist);
+                strcpy(filelist[count], full_path);
+                printf("%s\n", filelist[count]);
                 
                 // increase count
-                count++
-
+                count++;
             }
         }
         closedir(d);
