@@ -13,7 +13,7 @@
 #include <sys/stat.h>
 #include <syslog.h>
 #include <string.h>
-#include <dirent.h>    // For directories -> https://stackoverflow.com/questions/4204666/how-to-list-files-in-a-directory-in-a-c-program
+#include <dirent.h>
 //#include <opus.h>
 
 
@@ -21,7 +21,7 @@
 #define NORMAL_COLOR  "\x1B[0m"
 #define GREEN  "\x1B[32m"
 #define RED  "\x1B[33m"
-#define MAXFILES 10000
+#define MAXFILES 3000              // originally set to 10000 but caused immediate SIGSEV
 #define FILELEN 1000
 
 
