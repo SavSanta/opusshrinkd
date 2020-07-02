@@ -103,8 +103,8 @@ int updatefiles(void)
     DIR *d;
     struct dirent *dir;
     
-    /* Create a 200 file character array to hold strings of 70 chars max each */
-    char *filelist[MAXFILES][128] = {'\0'};
+    /* Create a 200 file character ptr array to hold strings of 128 chars max each */
+    char * filelist[MAXFILES][128] = {'\0'};
     
     /* File path  */
     char path[FILELEN]="/root/voicecalls/";
@@ -124,6 +124,8 @@ int updatefiles(void)
     if (d)
     {
         // call readdir to read the next file in the dirent directory and assign it to dir.
+        int count = 0 ;
+        
         while ((dir = readdir(d)) != NULL) 
         {
             //Check if dirent is valued as a regular file. Only expected to work on unix per https://linux.die.net/man/3/readdir
