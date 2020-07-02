@@ -21,7 +21,7 @@
 #define NORMAL_COLOR  "\x1B[0m"
 #define GREEN  "\x1B[32m"
 #define RED  "\x1B[33m"
-#define MAXFILES 3000            // originally set to 10000 but caused immediate SIGSEV
+#define MAXFILES 3000            // decrease from 10000 to stop SIGSEVs
 #define FILELEN 1000
 
 
