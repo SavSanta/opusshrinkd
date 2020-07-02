@@ -107,7 +107,7 @@ int updatefiles(void)
     char * filelist[MAXFILES][128] = {'\0'};
     
     /* File path  */
-    char path[FILELEN]="/root/voicecalls/";
+    char path[FILELEN]="/root/voicecalls";
     
     /* Debug Testing Omit This code in production
     printf("\nEnter the directory you want to list out!");
@@ -125,7 +125,6 @@ int updatefiles(void)
     {
         // call readdir to read the next file in the dirent directory and assign it to dir.
         int count = 0 ;
-        
         while ((dir = readdir(d)) != NULL) 
         {
             //Check if dirent is valued as a regular file. Only expected to work on unix per https://linux.die.net/man/3/readdir
@@ -141,6 +140,9 @@ int updatefiles(void)
                 printf("%s\n",full_path);
                 strcpy(filelist[0][0], full_path);
                 printf("%s\n", *filelist);
+                
+                // increase count
+                count++
 
             }
         }
