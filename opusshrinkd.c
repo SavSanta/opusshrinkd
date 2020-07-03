@@ -109,6 +109,13 @@ time_t current_t, trigger_t
       return EXIT_SUCCESS;
     }
 
+    void updatetrigger (void)
+    {
+        /* Adds a two hours in seconds to the trigger time */
+        trigger_t = (long int) current_t + 72000
+
+    }
+
     void updatefiles (void)
     {
       /* Standard declarations */
