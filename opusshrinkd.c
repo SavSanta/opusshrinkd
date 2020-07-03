@@ -27,9 +27,14 @@
 #define BASEPATH "/root/voicecalls"
 #define SAVEPATH "/root/opusvoicecalls"
 
+
+
 // Global Vars
 /* Create a 200 file character ptr array to hold strings of 128 chars max each */
 char *filelist[MAXFILES][128] = { '\0' };
+/* Create time objects */
+time_t current_t, trigger_t
+
 
     static void opus_shrink_daemon ()
     {
@@ -85,12 +90,14 @@ char *filelist[MAXFILES][128] = { '\0' };
 
     int main ()
     {
-      opus_shrink_daemon ();
-
+      /* Initialize start time */
+      current_t = time(NULL); 
+      
+      
+      opus_shrink_daemon();
+      syslog (LOG_NOTICE, "Opus Shrink has started.");
       while (1)
         {
-          //TODO: Insert daemon code here.
-          syslog (LOG_NOTICE, "Opus Shrink has started.");
           updatefiles ();
           sleep (10);
           break;
@@ -101,7 +108,6 @@ char *filelist[MAXFILES][128] = { '\0' };
 
       return EXIT_SUCCESS;
     }
-
 
     void updatefiles (void)
     {
