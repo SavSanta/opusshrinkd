@@ -102,7 +102,7 @@ char *filelist[MAXFILES][128] = { '\0' };
     }
 
 
-    int updatefiles (void)
+    void updatefiles (void)
     {
       /* Standard declarations */
       DIR *d;
@@ -155,6 +155,7 @@ char *filelist[MAXFILES][128] = { '\0' };
           exit (EXIT_FAILURE);
 
         }
-      return (0);
+        
+      return;
 
     }
