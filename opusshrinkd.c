@@ -98,8 +98,8 @@ time_t current_t, trigger_t
       syslog(LOG_NOTICE, "Opus Shrink has started.");
       while (1)
         {
-          updatefiles ();
-          sleep (10);
+          updatefiles();
+          sleep(10);
           break;
         }
 
