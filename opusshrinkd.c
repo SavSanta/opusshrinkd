@@ -90,14 +90,11 @@ time_t current_t, trigger_t
 
     int main()
     {
-      /* Initialize start time */
-      current_t = time(NULL); 
-      
-      
       opus_shrink_daemon();
       syslog(LOG_NOTICE, "Opus Shrink has started.");
       while (1)
         {
+          
           updatefiles();
           sleep(10);
           break;
@@ -111,8 +108,12 @@ time_t current_t, trigger_t
 
     void updatetrigger(void)
     {
+        
+        /* Initialize start time to current time */
+        current_t = time(NULL); 
+        
         /* Adds a two hours in seconds to the trigger time */
-        trigger_t = (long int) current_t + 72000
+        trigger_t = (long int) current_t + 72000;
 
     }
 
