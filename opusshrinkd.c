@@ -92,6 +92,7 @@ time_t current_t, trigger_t
     {
       opus_shrink_daemon();
       syslog(LOG_NOTICE, "Opus Shrink has started.");
+      updatetrigger();
       while (1)
         {
           
@@ -113,7 +114,7 @@ time_t current_t, trigger_t
         current_t = time(NULL); 
         
         /* Adds a two hours in seconds to the trigger time */
-        trigger_t = (long int) current_t + 72000;
+        trigger_t = (long int) current_t + 7200;
 
     }
 
