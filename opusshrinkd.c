@@ -23,7 +23,12 @@
 #define RED  "\x1B[33m"
 #define MAXFILES 3000		// decrease from 10000 to stop SIGSEVs
 #define FILELEN 1000
+#define BASEPATH "/root/voicecalls"
+#define SAVEPATH "/root/opusvoicecalls"
 
+// Global Vars
+/* Create a 200 file character ptr array to hold strings of 128 chars max each */
+char *filelist[MAXFILES][128] = { '\0' };
 
     static void opus_shrink_daemon ()
     {
@@ -64,7 +69,7 @@
 
       /* Change the working directory to the root directory */
       /* or another appropriated directory */
-      chdir ("/root/opusvoicecalls");
+      chdir (SAVEPATH);
 
       /* Close all open file descriptors */
       int x;
@@ -106,19 +111,13 @@
       /* declare and initialize a counter variable for files in directory */
       int count = 0;
 
-      /* Create a 200 file character ptr array to hold strings of 128 chars max each */
-      char *filelist[MAXFILES][128] = { '\0' };
-
-      /* File path  */
-      char path[FILELEN] = "/root/voicecalls";
-
       /* Debug Testing Omit This code in production
          printf("\nEnter the directory you want to list out!");
          scanf("%s", &path);
        */
 
       /* Set the path of the d variable */
-      d = opendir (path);
+      d = opendir (BASEPATH);
 
       /* Create a full path variable */
       char full_path[FILELEN];
@@ -135,7 +134,7 @@
 
               // following sections builds the full path to the files in the location incrementally using `strcat`
               full_path[0] = '\0';
-              strcat (full_path, path);
+              strcat (full_path, BASEPATH);
               strcat (full_path, "/");
               strcat (full_path, dir->d_name);
 
