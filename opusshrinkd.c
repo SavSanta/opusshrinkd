@@ -43,7 +43,7 @@ time_t current_t, trigger_t
       pid_t pid;
 
       /* Fork off the parent process */
-      pid = fork ();
+      pid = fork();
       /* If pid is less than zero after fork, then an error occurred. Exit */
       if (pid < 0)
         exit (EXIT_FAILURE);
@@ -51,16 +51,16 @@ time_t current_t, trigger_t
       if (pid > 0)
         exit (EXIT_SUCCESS);
       /* On success: The child process becomes session leader */
-      if (setsid () < 0)
+      if (setsid() < 0)
         exit (EXIT_FAILURE);
 
       /* Catch, ignore and handle signals */
       //TODO: Implement a working signal handler */
-      signal (SIGCHLD, SIG_IGN);
-      signal (SIGHUP, SIG_IGN);
+      signal(SIGCHLD, SIG_IGN);
+      signal(SIGHUP, SIG_IGN);
 
       /* Fork off for the second time */
-      pid = fork ();
+      pid = fork();
 
       /* An error occurred if pid is less than zero */
       if (pid < 0)
@@ -88,14 +88,14 @@ time_t current_t, trigger_t
       openlog ("opusshrink", LOG_PID, LOG_DAEMON);
     }
 
-    int main ()
+    int main()
     {
       /* Initialize start time */
       current_t = time(NULL); 
       
       
       opus_shrink_daemon();
-      syslog (LOG_NOTICE, "Opus Shrink has started.");
+      syslog(LOG_NOTICE, "Opus Shrink has started.");
       while (1)
         {
           updatefiles ();
@@ -104,19 +104,19 @@ time_t current_t, trigger_t
         }
 
       syslog (LOG_NOTICE, "Opus Shrink has terminated.");
-      closelog ();
+      closelog();
 
       return EXIT_SUCCESS;
     }
 
-    void updatetrigger (void)
+    void updatetrigger(void)
     {
         /* Adds a two hours in seconds to the trigger time */
         trigger_t = (long int) current_t + 72000
 
     }
 
-    void updatefiles (void)
+    void updatefiles(void)
     {
       /* Standard declarations */
       DIR *d;
