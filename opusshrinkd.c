@@ -46,13 +46,13 @@ time_t current_t, trigger_t
       pid = fork();
       /* If pid is less than zero after fork, then an error occurred. Exit */
       if (pid < 0)
-        exit (EXIT_FAILURE);
+        exit(EXIT_FAILURE);
       /* Success: Let the parent terminate */
       if (pid > 0)
-        exit (EXIT_SUCCESS);
+        exit(EXIT_SUCCESS);
       /* On success: The child process becomes session leader */
       if (setsid() < 0)
-        exit (EXIT_FAILURE);
+        exit(EXIT_FAILURE);
 
       /* Catch, ignore and handle signals */
       //TODO: Implement a working signal handler */
@@ -64,14 +64,14 @@ time_t current_t, trigger_t
 
       /* An error occurred if pid is less than zero */
       if (pid < 0)
-        exit (EXIT_FAILURE);
+        exit(EXIT_FAILURE);
 
       /* Success: Let the parent terminate */
       if (pid > 0)
-        exit (EXIT_SUCCESS);
+        exit(EXIT_SUCCESS);
 
       /* Set new file permissions to 755 */
-      umask (022);
+      umask(022);
 
       /* Change the working directory to the root directory */
       /* or another appropriated directory */
@@ -79,13 +79,13 @@ time_t current_t, trigger_t
 
       /* Close all open file descriptors */
       int x;
-      for (x = sysconf (_SC_OPEN_MAX); x >= 0; x--)
+      for (x = sysconf(_SC_OPEN_MAX); x >= 0; x--)
         {
-          close (x);
+          close(x);
         }
 
       /* Open the log file */
-      openlog ("opusshrink", LOG_PID, LOG_DAEMON);
+      openlog("opusshrink", LOG_PID, LOG_DAEMON);
     }
 
     int main()
@@ -103,7 +103,7 @@ time_t current_t, trigger_t
           break;
         }
 
-      syslog (LOG_NOTICE, "Opus Shrink has terminated.");
+      syslog(LOG_NOTICE, "Opus Shrink has terminated.");
       closelog();
 
       return EXIT_SUCCESS;
@@ -131,7 +131,7 @@ time_t current_t, trigger_t
        */
 
       /* Set the path of the d variable */
-      d = opendir (BASEPATH);
+      d = opendir(BASEPATH);
 
       /* Create a full path variable */
       char full_path[FILELEN];
@@ -148,9 +148,9 @@ time_t current_t, trigger_t
 
               // following sections builds the full path to the files in the location incrementally using `strcat`
               full_path[0] = '\0';
-              strcat (full_path, BASEPATH);
-              strcat (full_path, "/");
-              strcat (full_path, dir->d_name);
+              strcat(full_path, BASEPATH);
+              strcat(full_path, "/");
+              strcat(full_path, dir->d_name);
 
               //Copy the full path to the filelist array
               strcpy (filelist[count], full_path);
@@ -159,14 +159,13 @@ time_t current_t, trigger_t
               count++;
             }
         }
-          closedir (d);
+          closedir(d);
         }
       else
         {
-          printf ("Error occured opening the directory! Exiting");
-          syslog (LOG_PERROR,
-              "Error occured opening the directory! Exiting with failure");
-          exit (EXIT_FAILURE);
+          printf("Error occured opening the directory! Exiting");
+          syslog(LOG_PERROR, "Error occured opening the directory! Exiting with failure");
+          exit(EXIT_FAILURE);
 
         }
         
