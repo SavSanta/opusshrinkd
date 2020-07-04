@@ -15,7 +15,6 @@
 #include <string.h>
 #include <dirent.h>
 #include <time.h>
-//#include <opus.h>
 
 
 /* Terminal colored output via escape codes */
@@ -26,6 +25,8 @@
 #define FILELEN 1000
 #define BASEPATH "/root/voicecalls"
 #define SAVEPATH "/root/opusvoicecalls"
+#define ENDSUFFIX ".opus"
+
 
 // Global Vars
 /* Create a 200 file character ptr array to hold strings of 128 chars max each */
@@ -93,7 +94,7 @@ time_t current_t, trigger_t;
       
       // Set variable to current file directory contents
       updatefiles();
-      syslog(LOG_NOTICE, "Opus Shrink completed intial listing of directory generation.");
+      syslog(LOG_NOTICE, "Opus Shrink completed initial listing of directory generation.");
 
       while (1)  //mainloop
         {
@@ -108,7 +109,7 @@ time_t current_t, trigger_t;
           else
             {
               fileconvert();
-              sleep(500);          // Aid to decrease polling    
+              sleep(5);          // Aid to decrease polling    
             }
 
         }
@@ -137,11 +138,39 @@ time_t current_t, trigger_t;
        for (count = 0 ; count < MAXFILES ; count++)
         if (strlen(filelist[count]) > 0)
            {
-              printf("We begin to work on file because it's greater than zero %s", filelist[count]);
+              // derive basename and create a new destination filename with opus suffix
+              int err;
+              char *bname;
+              char outfile[200] = {'\0'};
+              strcat(outfile, SAVEPATH);
+              strcat(outfile, "/");
+              bname = basename(filelist[count]);
+              strcat(outfile, bname);
+              strcat(outfile, ENDSUFFIX);     
+              
+              // Call out to ffmpeg to do the conversion
+              char *env[1] = { 0 };
+              char *argv[7] = { "ffmpeg", "-i", filelist[count], "-b:a", "20k", outfile, 0 };
+              err = execve("/usr/bin/ffmpeg", argv, env);
+              
+              
+              // Check exit code and delete file if safe. Otherwise log to syslog.
+              if ( err = 0 )
+              {
+                //delete file
+              }
+              else
+              {
+                char * errbuff[200];
+                sprintf(errbuff, "FFmpeg Transcode Error! Exit Code: %i on %s-> %s", err, outfile);
+                syslog(LOG_ERR, errbuff); 
+              }
+              
+              
            }
         else {
             
-            // maybe in future write to log file
+            // skip for now but maybe in future write to log file
             
             }
        
