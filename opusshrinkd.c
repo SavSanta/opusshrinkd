@@ -27,13 +27,11 @@
 #define BASEPATH "/root/voicecalls"
 #define SAVEPATH "/root/opusvoicecalls"
 
-
-
 // Global Vars
 /* Create a 200 file character ptr array to hold strings of 128 chars max each */
 char *filelist[MAXFILES][128] = { '\0' };
 /* Create time objects */
-time_t current_t, trigger_t
+time_t current_t, trigger_t;
 
 
     static void opus_shrink_daemon ()
@@ -92,22 +90,24 @@ time_t current_t, trigger_t
     {
       opus_shrink_daemon();
       syslog(LOG_NOTICE, "Opus Shrink has started.");
-      updatetrigger();
-      while (1)
+      
+      // Set variable to current file directory contents
+      updatefiles();
+      syslog(LOG_NOTICE, "Opus Shrink completed intial listing of directory generation.");
+
+      while (1)  //mainloop
         {
-            
-          // grab current_time and compare
-          current_t = time(NULL);
           
           if (current_t > trigger_t)
             {
               updatefiles();
               updatetrigger();
+              syslog(LOG_NOTICE, "Opus Shrink updated listing and timestamp after 7200 seconds.");
               sleep(10);
             }
           else
             {
-              sleep(3)
+              sleep(3);
               fileconvert();    
             }
 
@@ -128,6 +128,19 @@ time_t current_t, trigger_t
         /* Adds a two hours in seconds to the trigger time */
         trigger_t = (long int) current_t + 7200;
 
+    }
+
+    void fileconvert(void)
+    {
+       int count;
+       
+       for (count = 0 ; count < MAXFILES ; count++)
+        if (strlen(filelist[count]) > 0)
+           {
+              printf("We begin to work on file because it's greater than zero %s", filelist[count]);
+           }
+       
+        
     }
 
     void updatefiles(void)
