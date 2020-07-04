@@ -146,9 +146,8 @@ time_t current_t, trigger_t;
               strcat(outfile, "/");
               bname = basename(filelist[count]);
               strcat(outfile, bname);
-              strcat(outfile, ENDSUFFIX);     
-              
-              
+              strcat(outfile, ENDSUFFIX);
+
               /* Forking protocol done here. Neccessary to get return child exit status cod */
               
               int pid = fork();
@@ -172,11 +171,12 @@ time_t current_t, trigger_t;
               int status;
               wait(&status); 
               
-              // Check exit code and delete file if safe. Otherwise log to syslog.
+              // Check exit code and delete file if safe
               if ( status == 0 )
               {
-                // int rename (const char *oldname, const char *newname)
-                //delete file
+                char trash[200] = "/root/voicecallstrash/";
+                strcat(trash, bname);
+                rename(filelist[count], trash);
               }
               else
               {
@@ -185,8 +185,6 @@ time_t current_t, trigger_t;
                 sprintf(errbuff, "FFmpeg Transcode Error! PID %i - Exit Code: %i on %s-> %s", pid, status, outfile);
                 syslog(LOG_ERR, errbuff); 
               }
-              
-              
            }
         else {
             
