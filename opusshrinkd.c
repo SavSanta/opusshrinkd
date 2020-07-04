@@ -148,21 +148,41 @@ time_t current_t, trigger_t;
               strcat(outfile, bname);
               strcat(outfile, ENDSUFFIX);     
               
-              // Call out to ffmpeg to do the conversion
-              char *env[1] = { 0 };
-              char *argv[7] = { "ffmpeg", "-i", filelist[count], "-b:a", "20k", outfile, 0 };
-              err = execve("/usr/bin/ffmpeg", argv, env);
               
+              /* Forking protocol done here. Neccessary to get return child exit status cod */
+              
+              int pid = fork();
+              
+              if (pid == 0)
+              {
+              // Call out to ffmpeg to do the conversion
+              char *argv[7] = { "ffmpeg", "-i", filelist[count], "-b:a", "20k", outfile, 0 };
+              err = execv("/usr/bin/ffmpeg", argv);
+              
+              exit(err); // This will only be reached if we got an error in the child call.
+              
+              }
+              else if(pid < 0) 
+              {
+                syslog(LOG_ERR, "Forking failed with error code %d\n.", pid);
+                exit(-1);
+              }
+
+              // wait for child status
+              int status;
+              wait(&status); 
               
               // Check exit code and delete file if safe. Otherwise log to syslog.
-              if ( err = 0 )
+              if ( status == 0 )
               {
+                // int rename (const char *oldname, const char *newname)
                 //delete file
               }
               else
               {
+                // Create a new error message buffer and special format values before sending to syslog
                 char * errbuff[200];
-                sprintf(errbuff, "FFmpeg Transcode Error! Exit Code: %i on %s-> %s", err, outfile);
+                sprintf(errbuff, "FFmpeg Transcode Error! PID %i - Exit Code: %i on %s-> %s", pid, status, outfile);
                 syslog(LOG_ERR, errbuff); 
               }
               
@@ -232,3 +252,4 @@ time_t current_t, trigger_t;
       return;
 
     }
+    
