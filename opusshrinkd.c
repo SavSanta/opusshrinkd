@@ -139,6 +139,11 @@ time_t current_t, trigger_t;
            {
               printf("We begin to work on file because it's greater than zero %s", filelist[count]);
            }
+        else {
+            
+            // maybe in future write to log file
+            
+            }
        
         
     }
@@ -191,7 +196,7 @@ time_t current_t, trigger_t;
       else
         {
           printf("Error occured opening the directory! Exiting");
-          syslog(LOG_PERROR, "Error occured opening the directory! Exiting with failure");
+          syslog(LOG_ERR, "Error occured opening the directory! Exiting with failure");
           exit(EXIT_FAILURE);
         }
         
