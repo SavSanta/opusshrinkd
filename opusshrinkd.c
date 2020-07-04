@@ -109,7 +109,7 @@ time_t current_t, trigger_t;
           else
             {
               fileconvert();
-              sleep(5);          // Aid to decrease polling    
+              sleep(500);          // Aid to decrease polling    
             }
 
         }
