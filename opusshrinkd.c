@@ -237,7 +237,6 @@ time_t current_t, trigger_t;
 
               //Copy the full path to the filelist array
               strcpy (filelist[count], full_path);
-              //printf("%s\n", filelist[count]);
 
               count++;
             }
