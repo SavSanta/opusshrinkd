@@ -26,6 +26,7 @@
 #define BASEPATH "/root/voicecalls"
 #define SAVEPATH "/root/opusvoicecalls"
 #define TRASHPATH "/root/trashvoicecalls"
+#define BITRATE "10k"
 #define ENDSUFFIX ".opus"
 
 
@@ -156,7 +157,7 @@ time_t current_t, trigger_t;
               if (pid == 0)
               {
               // Call out to ffmpeg to do the conversion
-              char *argv[7] = { "ffmpeg", "-i", filelist[count], "-b:a", "20k", outfile, 0 };
+              char *argv[7] = { "ffmpeg", "-i", filelist[count], "-b:a", BITRATE, outfile, 0 };
               err = execv("/usr/bin/ffmpeg", argv);
               
               exit(err); // This will only be reached if we got an error in the child call.
