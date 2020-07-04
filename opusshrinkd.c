@@ -95,10 +95,22 @@ time_t current_t, trigger_t
       updatetrigger();
       while (1)
         {
+            
+          // grab current_time and compare
+          current_t = time(NULL);
           
-          updatefiles();
-          sleep(10);
-          break;
+          if (current_t > trigger_t)
+            {
+              updatefiles();
+              updatetrigger();
+              sleep(10);
+            }
+          else
+            {
+              sleep(3)
+              fileconvert();    
+            }
+
         }
 
       syslog(LOG_NOTICE, "Opus Shrink has terminated.");
@@ -168,7 +180,6 @@ time_t current_t, trigger_t
           printf("Error occured opening the directory! Exiting");
           syslog(LOG_PERROR, "Error occured opening the directory! Exiting with failure");
           exit(EXIT_FAILURE);
-
         }
         
       return;
