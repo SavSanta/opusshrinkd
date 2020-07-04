@@ -1,8 +1,8 @@
 /*
  * opusshrinkd.c
- * Making a daemon using question below
+ * Daemon made using StackO
  * https://stackoverflow.com/questions/17954432/creating-a-daemon-in-linux/17955149#17955149
- * Fork this code: https://github.com/pasce/daemon-skeleton-linux-c
+ * Forked skeleton: https://github.com/pasce/daemon-skeleton-linux-c
  */
 
 #include <stdio.h>
@@ -16,11 +16,12 @@
 #include <dirent.h>
 #include <time.h>
 
-
 /* Terminal colored output via escape codes */
 #define NORMAL_COLOR  "\x1B[0m"
 #define GREEN  "\x1B[32m"
 #define RED  "\x1B[33m"
+
+/* Configurable ifdefines */
 #define MAXFILES 3000		// decrease from 10000 to stop SIGSEVs
 #define FILELEN 1000
 #define BASEPATH "/root/voicecalls"
