@@ -25,6 +25,7 @@
 #define FILELEN 1000
 #define BASEPATH "/root/voicecalls"
 #define SAVEPATH "/root/opusvoicecalls"
+#define TRASHPATH "/root/trashvoicecalls"
 #define ENDSUFFIX ".opus"
 
 
@@ -174,7 +175,8 @@ time_t current_t, trigger_t;
               // Check exit code and delete file if safe
               if ( status == 0 )
               {
-                char trash[200] = "/root/voicecallstrash/";
+                char trash[200] = TRASHPATH;
+                strcat(trash, "/");
                 strcat(trash, bname);
                 rename(filelist[count], trash);
               }
