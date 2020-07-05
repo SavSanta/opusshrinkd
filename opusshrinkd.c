@@ -138,6 +138,8 @@ time_t current_t, trigger_t;
         else
         {
            syslog(LOG_NOTICE, "No lockfile found. New instance to launch.");
+           file = fopen("/var/lock/opusshrinkd.lock", "w");
+           fclose(file);
            return; 
         }
 
