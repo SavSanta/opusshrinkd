@@ -24,9 +24,9 @@
 /* Configurable ifdefines */
 #define MAXFILES 3000		// decrease from 10000 to stop SIGSEVs
 #define FILELEN 1000
-#define BASEPATH "/root/voicecalls"
-#define SAVEPATH "/root/opusvoicecalls"
-#define TRASHPATH "/root/trashvoicecalls"
+#define BASEPATH "/home/acr/voicecalls"
+#define SAVEPATH "/home/acr/opusvoicecalls"
+#define TRASHPATH "/home/acr/trashvoicecalls"
 #define BITRATE "10k"
 #define ENDSUFFIX ".opus"
 
@@ -92,6 +92,7 @@ time_t current_t, trigger_t;
 
     int main()
     {
+      checkrunning();
       opus_shrink_daemon();
       syslog(LOG_NOTICE, "Opus Shrink has started.");
       
@@ -123,6 +124,25 @@ time_t current_t, trigger_t;
       return EXIT_SUCCESS;
     }
 
+    void checkrunning(void)
+    {
+        
+        FILE *file;
+        
+        if (file = fopen("/var/lock/opusshrinkd.lock", "r"))
+        {
+            syslog(LOG_ERR, "Error! Opusshrinkd daemon lockfile (/var/lock/opusshrinkd.lock) indicates already. Exiting.");
+            fclose(file);
+            exit(-2);
+        }
+        else
+        {
+           syslog(LOG_NOTICE, "No lockfile found. New instance to launch.");
+           return; 
+        }
+
+    }
+    
     void updatetrigger(void)
     {
         
@@ -186,7 +206,7 @@ time_t current_t, trigger_t;
               {
                 // Create a new error message buffer and special format values before sending to syslog
                 char * errbuff[200];
-                sprintf(errbuff, "FFmpeg Transcode Error! PID %i - Exit Code: %i on %s-> %s", pid, status, outfile);
+                sprintf(errbuff, "FFmpeg Transcode Error! PID %i - Exit Code: %i on -> %s", pid, status, outfile);
                 syslog(LOG_ERR, errbuff); 
               }
            }
