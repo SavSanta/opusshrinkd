@@ -145,6 +145,22 @@ time_t current_t, trigger_t;
 
     }
     
+    void sigtermcleanup(void) 
+    {
+        status = remove(“/var/lock/opusshrinkd.lock”);
+        
+        // Logic to check if loop stopped or stop loop
+        
+        if (status == 0)
+            syslog("The lockfile was deleted. Exiting clean.\n");
+            exit(0);             
+        else
+            syslog("Unable to delete the lockfile. Exiting with error.\n"); 
+            exit(-3); 
+    }
+    
+    
+    
     void updatetrigger(void)
     {
         
