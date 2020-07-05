@@ -129,7 +129,7 @@ time_t current_t, trigger_t;
         
         FILE *file;
         
-        if (file = fopen("/var/lock/opusshrinkd.lock", "r"))
+        if ((file = fopen("/var/lock/opusshrinkd.lock", "r")))
         {
             syslog(LOG_ERR, "Error! Opusshrinkd daemon lockfile (/var/lock/opusshrinkd.lock) indicates already. Exiting.");
             fclose(file);
@@ -147,16 +147,21 @@ time_t current_t, trigger_t;
     
     void sigtermcleanup(void) 
     {
-        status = remove(“/var/lock/opusshrinkd.lock”);
+        int status;
+        status = remove("/var/lock/opusshrinkd.lock");
         
         // Logic to check if loop stopped or stop loop
         
         if (status == 0)
-            syslog("The lockfile was deleted. Exiting clean.\n");
-            exit(0);             
+        {
+            syslog(LOG_NOTICE, "The lockfile was deleted. Exiting clean.\n");
+            exit(0);
+        }            
         else
-            syslog("Unable to delete the lockfile. Exiting with error.\n"); 
+        {
+            syslog(LOG_NOTICE, "Unable to delete the lockfile. Exiting with error.\n"); 
             exit(-3); 
+        }
     }
     
     
