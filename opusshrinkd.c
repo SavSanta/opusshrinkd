@@ -13,6 +13,7 @@
 #include <syslog.h>
 #include <string.h>
 #include <dirent.h>
+#include <libgen.h>
 #include <time.h>
 
 /*Terminal colored output via escape codes */
