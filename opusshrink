@@ -1,0 +1,44 @@
+#! /bin/sh
+
+# File: /etc/init.d/opusshrinkd
+
+### BEGIN INIT INFO
+# Provides:          opusshrinkd
+# Required-Start:    $local_fs $remote_fs $syslog
+# Required-Stop:     $local_fs $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts the unicorn web server
+# Description:       starts unicorn
+### END INIT INFO
+
+DAEMON=/usr/local/bin/opusshrinkd
+DAEMON_OPTS=""
+NAME=opusshrinkd
+DESC="Opus Voice Notes Shrinker Daemon"
+PID=/var/run/opusshrinkd.pid
+LOCKFILE=/var/lock/opusshrinkd.lock
+
+# Exit if the package is not installed
+[ -x "$DAEMON" ] || exit 0
+
+case "$1" in
+  start)
+  
+    if [ -e "$LOCKFILE" ]; then
+        echo "Opusshrinkd LOCKFILE file is already present $LOCKFILE. Exiting."
+        exit 2
+    fi
+    echo -n "Starting $DESC: "
+    start-stop-daemon --start --chuid acr --pidfile "$PID" --start --exec "$DAEMON" -- $DAEMON_OPTS || return 2
+    touch $LOCKFILE
+    chown acr $LOCKFILE    
+    echo "$NAME."
+    ;;
+  *)
+    echo "Usage: $NAME {start|stop|restart}" >&2
+    exit 1
+    ;;
+esac
+
+exit 0
