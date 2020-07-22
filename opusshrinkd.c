@@ -60,9 +60,10 @@ time_t current_t, trigger_t;
       if (setsid() < 0)
         exit(EXIT_FAILURE);
 
-      /* Catch, ignore and handle signals */
-      //TODO: Implement a working signal handler */
+      /* Catch signal to silently (and portably) reap children so they dont zombify */
       signal(SIGCHLD, SIG_IGN);
+        
+      /* Catch signal to remove lockfile and terminate gracefully */ 
       signal(SIGHUP, SIG_IGN);
 
       /* Fork off for the second time */
@@ -96,7 +97,6 @@ time_t current_t, trigger_t;
 
     void checkrunning(void)
     {
-        
         FILE *file;
         
         if ((file = fopen("/var/lock/opusshrinkd.lock", "r")))
@@ -118,7 +118,6 @@ time_t current_t, trigger_t;
 
     void checkfilesize(char filename1[], char filename2[])
     {
-
       // Function to check file sizes. Generally speaking the opus files should be within 50-75% of the original
       // If not alert to check everyone. 
       // Alternatively can just figure a method to check duration time of each
@@ -130,7 +129,6 @@ time_t current_t, trigger_t;
         status = remove("/var/lock/opusshrinkd.lock");
         
         // Logic to check if loop stopped or manually stop loop if in middle of process
-
 
         if (status == 0)
         {
@@ -152,13 +150,11 @@ time_t current_t, trigger_t;
     
     void updatetrigger(void)
     {
-        
         /* Initialize start time to current time */
         current_t = time(NULL); 
         
         /* Adds a two hours in seconds to the trigger time */
         trigger_t = (long int) current_t + 5400;
-
     }
 
     void fileconvert(void)
