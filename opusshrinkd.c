@@ -134,14 +134,14 @@ time_t current_t, trigger_t;
         {
             syslog(LOG_NOTICE, "The lockfile was deleted.\n");
             closelog();
-            syslog(LOG_NOTICE, "Opus Shrink has terminated successfully.");
+            syslog(LOG_NOTICE, "Opus Shrink terminated successfully.");
             exit(0);
         }            
         else
         {
             syslog(LOG_NOTICE, "Unable to delete the lockfile. Exiting with error.\n");
             closelog();
-            syslog(LOG_NOTICE, "Opus Shrink has terminated with error.");
+            syslog(LOG_NOTICE, "Opus Shrink terminated with an error.");
             exit(-3); 
         }
     }
@@ -153,7 +153,7 @@ time_t current_t, trigger_t;
         /* Initialize start time to current time */
         current_t = time(NULL); 
         
-        /* Adds a two hours in seconds to the trigger time */
+        /* Adds about two hours (in seconds) to create the next trigger time */
         trigger_t = (long int) current_t + 5400;
     }
 
@@ -185,10 +185,11 @@ time_t current_t, trigger_t;
               char *argv[10] = { "ffmpeg", "-hide_banner", "-loglevel", "fatal", "-i", filelist[count], "-b:a", BITRATE, outfile, 0 };
               err = execv("/usr/bin/ffmpeg", argv);
               
+              // This will only be reached if we got an error in the child call.
               char errbuff[200];
               sprintf(errbuff, "Error! Could not execute FFmpeg for file %s. Exiting with %i", filelist[count], err);
               syslog(LOG_ERR, errbuff);
-              exit(err); // This will only be reached if we got an error in the child call.
+              exit(err); 
               
               }
               else if(pid < 0) 
@@ -255,20 +256,20 @@ time_t current_t, trigger_t;
       // Check if value isnt a negative..ie a fail
       if (d)
         {
-          // call readdir to read the next file in the dirent directory and assign it to dir.
+          // Call readdir to read the next file in the dirent directory and assign it to dir.
           while ((dir = readdir (d)) != NULL)
         {
-          //Check if dirent is valued as a regular file. Only expected to work on unix per https://linux.die.net/man/3/readdir
+          // Check if dirent is valued as a regular file. Only expected to work on unix per https://linux.die.net/man/3/readdir
           if (dir->d_type == DT_REG)
             {
 
-              // following sections builds the full path to the files in the location incrementally using `strcat`
+              // Following section builds the full path to the files in the location incrementally using `strcat`
               full_path[0] = '\0';
               strcat(full_path, BASEPATH);
               strcat(full_path, "/");
               strcat(full_path, dir->d_name);
 
-              //Copy the full path to the filelist array
+              // Copy the full path to the filelist array
               strcpy(filelist[count], full_path);
 
               count++;
@@ -304,7 +305,7 @@ time_t current_t, trigger_t;
             {
               updatefiles();
               updatetrigger();
-              syslog(LOG_NOTICE, "Opus Shrink updated listing and timestamp after 5400 seconds.");
+              syslog(LOG_NOTICE, "Opus Shrink updated filelisting and timestamp after 5400 seconds.");
               sleep(25);
             }
           else
