@@ -190,8 +190,8 @@ time_t current_t, trigger_t;
               err = execv("/usr/bin/ffmpeg", argv);
               
               char errbuff[200];
-              sprintf("Error! Could not execute FFmpeg for file %s. Exiting.", filelist[count]);
-              syslog(LOG_ERR, errmsg);
+              sprintf(errbuff, "Error! Could not execute FFmpeg for file %s. Exiting with %i", filelist[count], err);
+              syslog(LOG_ERR, errbuff);
               exit(err); // This will only be reached if we got an error in the child call.
               
               }
