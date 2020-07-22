@@ -189,6 +189,9 @@ time_t current_t, trigger_t;
               char *argv[10] = { "ffmpeg", "-hide_banner", "-loglevel", "fatal", "-i", filelist[count], "-b:a", BITRATE, outfile, 0 };
               err = execv("/usr/bin/ffmpeg", argv);
               
+              char errbuff[200];
+              sprintf("Error! Could not execute FFmpeg for file %s. Exiting.", filelist[count]);
+              syslog(LOG_ERR, errmsg);
               exit(err); // This will only be reached if we got an error in the child call.
               
               }
