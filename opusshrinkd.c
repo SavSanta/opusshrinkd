@@ -290,7 +290,7 @@ time_t current_t, trigger_t;
     int main()
     {
       checkrunning();
-  //    opus_shrink_daemon();
+      opus_shrink_daemon();
       syslog(LOG_NOTICE, "Opus Shrink has started.");
 
       // Set variable to current file directory contents
