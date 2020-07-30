@@ -116,12 +116,21 @@ time_t current_t, trigger_t;
     }
 
 
-    long getfilesize(char filename[])
+    void xferdone(char filename[])
     {  
         // Use a POSIX only method to call stat() on filename and return filesize
         struct stat statinfo;
-        stat(filename, &statinfo);
-        return statinfo.st_size;
+        long last_size;
+        
+        do {
+            // Save the filesize at point, delay 20 secs, check until equal.
+            stat(filename, &statinfo);
+            last_size = statinfo.st_size;
+            sleep(20);
+        } while (statinfo.st_size != last_size);
+        
+        return;
+        
     }
 
     void cmpfiles(char filename1[], char filename2[])
@@ -180,8 +189,10 @@ time_t current_t, trigger_t;
               strcat(outfile, bname);
               strcat(outfile, ENDSUFFIX);
 
+              // In case of SFTP transfer is ongoing. Attempt to wait til it's done
+              xferdone(filelist[count]);
 
-              /* Forking protocol done here. Neccessary to get return child exit status cod */
+              // Forking protocol done here. Neccessary to get return child exit status code 
               
               int pid = fork();
               
