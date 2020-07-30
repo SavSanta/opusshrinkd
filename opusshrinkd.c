@@ -133,14 +133,12 @@ time_t current_t, trigger_t;
         if (status == 0)
         {
             syslog(LOG_NOTICE, "The lockfile was deleted.\n");
-            closelog();
             syslog(LOG_NOTICE, "Opus Shrink terminated successfully.");
             exit(0);
         }            
         else
         {
             syslog(LOG_NOTICE, "Unable to delete the lockfile. Exiting with error.\n");
-            closelog();
             syslog(LOG_NOTICE, "Opus Shrink terminated with an error.");
             exit(-3); 
         }
