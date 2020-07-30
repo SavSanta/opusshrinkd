@@ -16,6 +16,7 @@
 #include <dirent.h>
 #include <libgen.h>
 #include <time.h>
+#include <sys/wait.h>
 
 /* Version */
 #define PROG_VER "0.8.0"
