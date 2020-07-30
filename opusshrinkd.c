@@ -116,7 +116,7 @@ time_t current_t, trigger_t;
     }
     
 
-    void checkfilesize(char filename1[], char filename2[])
+    void cmpfiles(char filename1[], char filename2[])
     {
       // Function to check file sizes. Generally speaking the opus files should be within 50-75% of the original
       // If not alert to check everyone. 
