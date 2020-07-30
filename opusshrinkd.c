@@ -114,11 +114,19 @@ time_t current_t, trigger_t;
         }
 
     }
-    
+
+
+    long getfilesize(char filename[])
+    {  
+        // Use a POSIX only method to call stat() on filename and return filesize
+        struct stat statinfo;
+        stat(filename, &statinfo);
+        return statinfo.st_size;
+    }
 
     void cmpfiles(char filename1[], char filename2[])
     {
-      // Function to check file sizes. Generally speaking the opus files should be within 50-75% of the original
+      // Function to check opus file and original file sizes. Generally speaking the opus files should be within 50-75% of the original
       // If not alert to check everyone. 
       // Alternatively can just figure a method to check duration time of each
     }
