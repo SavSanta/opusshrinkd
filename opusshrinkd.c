@@ -45,6 +45,9 @@ time_t current_t, trigger_t;
 /* Quitflag */
 bool quitflag = false;
 
+/* Function Prototypes */
+void setquitflag(int);
+void updatefiles(void);
 
 
     static void opus_shrink_daemon ()
