@@ -46,6 +46,7 @@ time_t current_t, trigger_t;
 bool quitflag = false;
 
 
+
     static void opus_shrink_daemon ()
     {
 
@@ -66,9 +67,10 @@ bool quitflag = false;
 
       /* Catch signal to silently (and portably) reap children so they dont zombify */
       signal(SIGCHLD, SIG_IGN);
-        
-      /* Catch signal to remove lockfile and terminate gracefully */ 
       signal(SIGHUP, SIG_IGN);
+
+      /* Catch signal to remove lockfile and terminate gracefully */ 
+      signal(SIGTERM, setquitflag);
 
       /* Fork off for the second time */
       pid = fork();
@@ -143,11 +145,16 @@ bool quitflag = false;
       // Alternatively can just figure a method to check duration time of each
     }
 
+    void setquitflag(int signum) 
+    {
+        quitflag = true;
+        syslog(LOG_NOTICE, "TERMINATION signal caught...");
+    }
+
     void sigtermcleanup(void) 
     {
         int status;
         status = remove("/var/lock/opusshrinkd.lock");
-        quitflag = true;
         
         // Logic to check if loop stopped or manually stop loop if in middle of process
 
@@ -181,6 +188,11 @@ bool quitflag = false;
        for (count = 0 ; count < MAXFILES ; count++)
         if (strlen(filelist[count]) > 0)
            {
+              // Check for SIGTERM quitflag. 
+              if (quitflag = true) {
+                  sigtermcleanup();
+                }
+
               // derive basename and create a new destination filename with opus suffix
               int err;
               char * bname;
