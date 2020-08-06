@@ -7,6 +7,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <signal.h>
 #include <sys/types.h>
@@ -17,7 +18,6 @@
 #include <libgen.h>
 #include <time.h>
 #include <sys/wait.h>
-#include <stdbool.h>
 
 /* Version */
 #define PROG_VER "0.8.0"
