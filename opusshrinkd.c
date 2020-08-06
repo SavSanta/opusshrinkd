@@ -41,6 +41,8 @@
 char *filelist[MAXFILES][128] = { '\0' };
 /* Create global time objects */
 time_t current_t, trigger_t;
+/* Quitflag */
+boolean quitflag = false;
 
 
     static void opus_shrink_daemon ()
@@ -116,7 +118,6 @@ time_t current_t, trigger_t;
 
     }
 
-
     void xferdone(char filename[])
     {  
         // Use a POSIX only method to call stat() on filename and return filesize
@@ -145,6 +146,7 @@ time_t current_t, trigger_t;
     {
         int status;
         status = remove("/var/lock/opusshrinkd.lock");
+        quitflag = true;
         
         // Logic to check if loop stopped or manually stop loop if in middle of process
 
@@ -161,9 +163,7 @@ time_t current_t, trigger_t;
             exit(-3); 
         }
     }
-    
-    
-    
+
     void updatetrigger(void)
     {
         /* Initialize start time to current time */
