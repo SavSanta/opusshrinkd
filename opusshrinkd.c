@@ -198,7 +198,7 @@ bool quitflag = false;
               // Check for SIGTERM quitflag. 
               if (quitflag == true) {
                   sigtermcleanup();
-                }
+              }
 
               // derive basename and create a new destination filename with opus suffix
               int err;
