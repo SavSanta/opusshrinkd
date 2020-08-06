@@ -196,7 +196,7 @@ bool quitflag = false;
         if (strlen(filelist[count]) > 0)
            {
               // Check for SIGTERM quitflag. 
-              if (quitflag = true) {
+              if (quitflag == true) {
                   sigtermcleanup();
                 }
 
