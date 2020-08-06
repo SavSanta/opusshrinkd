@@ -36,6 +36,14 @@
 #define BITRATE "10k"
 #define ENDSUFFIX ".opus"
 
+/* Function Prototypes */
+void setquitflag(int);
+void updatefiles(void);
+void checkrunning(void);
+void fileconvert(void);
+void sigtermcleanup(void);
+void updatetrigger(void);
+void xferdone(char filename[]);
 
 // Global Vars
 /* Create a 200 file character ptr array to hold strings of 128 chars max each */
@@ -45,12 +53,8 @@ time_t current_t, trigger_t;
 /* Quitflag */
 bool quitflag = false;
 
-/* Function Prototypes */
-void setquitflag(int);
-void updatefiles(void);
 
-
-    static void opus_shrink_daemon ()
+    static void opus_shrink_daemon()
     {
 
       /* Process below will cause the fork off into a daemon */
