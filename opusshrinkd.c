@@ -155,11 +155,14 @@ bool quitflag = false;
     void setquitflag(int signum) 
     {
         quitflag = true;
-        syslog(LOG_NOTICE, "TERMINATION signal caught...");
+        syslog(LOG_NOTICE, "TERMINATION signal caught shutting down...");
+        write(STDOUT_FILENO, "TERMINATION signal caught shutting down...", 43);
     }
 
     void sigtermcleanup(void) 
     {
+        if (quitflag != true) return;
+
         int status;
         status = remove("/var/lock/opusshrinkd.lock");
         
@@ -193,12 +196,11 @@ bool quitflag = false;
        int count;
        
        for (count = 0 ; count < MAXFILES ; count++)
+        sigtermcleanup();
         if (strlen(filelist[count]) > 0)
            {
               // Check for SIGTERM quitflag. 
-              if (quitflag == true) {
-                  sigtermcleanup();
-              }
+              sigtermcleanup();
 
               // derive basename and create a new destination filename with opus suffix
               int err;
