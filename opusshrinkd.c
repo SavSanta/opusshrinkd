@@ -17,6 +17,7 @@
 #include <libgen.h>
 #include <time.h>
 #include <sys/wait.h>
+#include <stdbool.h>
 
 /* Version */
 #define PROG_VER "0.8.0"
@@ -42,7 +43,7 @@ char *filelist[MAXFILES][128] = { '\0' };
 /* Create global time objects */
 time_t current_t, trigger_t;
 /* Quitflag */
-boolean quitflag = false;
+bool quitflag = false;
 
 
     static void opus_shrink_daemon ()
