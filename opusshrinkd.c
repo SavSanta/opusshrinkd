@@ -196,7 +196,6 @@ bool quitflag = false;
        int count;
        
        for (count = 0 ; count < MAXFILES ; count++)
-        sigtermcleanup();
         if (strlen(filelist[count]) > 0)
            {
               // Check for SIGTERM quitflag. 
