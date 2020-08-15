@@ -12,7 +12,7 @@
 # Description:       starts unicorn
 ### END INIT INFO
 
-DAEMON=/usr/local/bin/opusshrinkd
+DAEMON=/opt/opusshrinkd
 DAEMON_OPTS=""
 NAME=opusshrinkd
 DESC="Opus Voice Notes Shrinker Daemon"
